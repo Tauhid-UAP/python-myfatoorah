@@ -25,7 +25,7 @@ class MyFatoorah:
         return self.send_request(self.base_url + 'InitiateSession', payload)
     
 
-    def execute_payment(self, invoice_value: float, session_id: str=None, payment_method_id: int=None, callback_url: str=None) -> Response:
+    def execute_payment(self, invoice_value: float, session_id: str=None, payment_method_id: int=None, display_currency_iso: str=None, callback_url: str=None) -> Response:
         if all([session_id is None, payment_method_id is None]):
             raise Exception('Either payment_method_id or session_id is required')
 
@@ -41,6 +41,9 @@ class MyFatoorah:
 
         if callback_url is not None:
             payload['CallBackUrl'] = callback_url
+
+        if display_currency_iso is not None:
+            payload['DisplayCurrencyIso'] = display_currency_iso
 
         return self.send_request(self.base_url + 'ExecutePayment', payload)
 
