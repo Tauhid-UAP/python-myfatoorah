@@ -59,6 +59,20 @@ class MyFatoorah:
 
         return self.send_request(self.base_url + 'ExecutePayment', payload)
 
+    def make_refund(self, key_type: str, key: str, service_charge_on_customer: bool, amount: float, comment: str, amount_deducted_from_supplier: Optional[float]=None) -> Response:
+        payload: dict = {
+            'KeyType': key_type,
+            'Key': key,
+            'ServiceChargeOnCustomer': service_charge_on_customer,
+            'Amount': amount,
+            'Comment': comment
+        }
+
+        if amount_deducted_from_supplier:
+            payload['AmountDeductedFromSupplier'] = amount_deducted_from_supplier
+
+        return self.send_request(self.base_url + 'MakeRefund', payload)
+
     def get_payment_status(self, key_type: str, key: str) -> Response:
         payload: dict = {
             'Key': key,
